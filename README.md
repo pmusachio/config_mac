@@ -21,8 +21,8 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 ```bash
-(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/pmusachio/.zprofile
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 ```bash
 brew update
@@ -115,6 +115,13 @@ sudo vim ~/.zshrc
 ```bash
 export PATH="$(pyenv root)/shims:$PATH"
 ```
+
+```bash
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zprofile
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zprofile
+echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+source ~/.zprofile
+```
 ```bash
 pyenv --version
 ```
@@ -133,6 +140,9 @@ pyenv global 3.12.3
 ### Apache Spark
 ```bash
 brew install apache-spark
+```
+```bash
+brew install pyspark
 ```
 
 > Variáveis de Ambiente
