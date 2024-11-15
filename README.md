@@ -106,6 +106,17 @@ ssh -T git@github.com
 
 <br>
 
+### Java
+```bash
+brew install openjdk@11
+```
+> std version
+```bash
+sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
+```
+
+<br>
+
 ### Pyenv
 ```bash
 brew install pyenv
