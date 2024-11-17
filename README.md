@@ -1,29 +1,25 @@
-# Configurando Mac M1 para Data Science com Big Data
+# Setup Mac Apple Silicon for DS projects W/ Big Data
 <br/>
 
-## Atualizar o macOS
+## OS Update
 ```bash
 softwareupdate --install --all
 ```
 <br/>
 
-## Instalar Ferramentas de Desenvolvimento
+## XCode
 ```bash
 xcode-select --install
 ```
 <br/>
 
-## Instalar e Configurar o Homebrew
+## Homebrew
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-```bash
-export PATH="/opt/homebrew/bin:$PATH"
-source ~/.zshrc
-```
 <br/>
 
-## Instalar e Configurar o Git
+## Git
 ```bash
 brew install gh
 git config --global user.name "pmusachio"
@@ -32,7 +28,7 @@ git config --global init.defaultBranch main
 ```
 <br/>
 
-## Instalar Zsh e Configurar o Oh My Zsh
+## Oh My Zsh
 ```bash
 brew install zsh
 chsh -s /bin/zsh
@@ -45,113 +41,135 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
+<br/>
+
+## SSH keys
 ```bash
-sudo vim ~/.zshrc
+ls ~/.ssh/
 ```
 ```bash
+ssh-keygen -t rsa -b 4096 -C "paulomusachio@gmail.com"
+```
+```bash
+ssh-add ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub
+```
+
+[SSH Set](https://github.com/settings/keys)
+
+> Add SSH key
+> 
+> past key from terminal
+> 
+> rename key
+
+<br/>
+
+## Java
+```bash
+brew install openjdk@11
+```
+<br/>
+
+## Pyenv
+```bash
+brew install pyenv
+```
+<br/>
+
+## Python
+```bash
+pyenv install -l
+```
+```bash
+pyenv install 3.12.3
+pyenv global 3.12.3
+```
+<br/>
+
+## Spark
+```bash
+brew install apache-spark
+```
+<br/>
+
+## PySpark
+```bash
+pip install pyspark
+```
+<br/>
+
+## Hadoop
+```bash
+brew install hadoop
+```
+
+> hdfs namenode -format
+> 
+> start-dfs.sh
+> 
+> hdfs dfsadmin -report
+> 
+> stop-dfs.sh
+<br/>
+
+## VSCode
+```bash
+brew install --cask visual-studio-code
+```
+<br/>
+
+## Edit .zshrc
+```bash
+vim ~/.zshrc
+```
+```bash
+# HOMEBREW
+export PATH="/opt/homebrew/bin:$PATH"
+
+# OH MY ZSH
 plugins=(
   git
   fzf
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
+
+# JAVA
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+export PATH=$JAVA_HOME/bin:$PATH
+
+# PYENV
+export PATH="$(pyenv root)/shims:$PATH"
+
+# SPARK
+export PATH="/opt/homebrew/opt/apache-spark/bin:$PATH"
+
+# PYSPARK
+export SPARK_HOME=/opt/homebrew/opt/apache-spark/libexec
+export PATH=$SPARK_HOME/bin:$PATH
 ```
 ```bash
 source ~/.zshrc
 ```
 <br/>
 
-## Gerenciar Chaves SSH
+## Edit .zprofile
 ```bash
-ls ~/.ssh/
+vim ~/.zprofile
 ```
 ```bash
-ssh-keygen -t rsa -b 4096 -C "paulomusachio@gmail.com"
-ssh-add ~/.ssh/id_rsa  # Adicionar a chave ao agente SSH
-cat ~/.ssh/id_rsa.pub  # Copiar a chave pública para adicionar ao GitHub
-```
-
-[GitHub SSH Settings](https://github.com/settings/keys)
-
-> "New SSH key / Add SSH key"
-> 
-> cole a chave exibida no terminal
-> 
-> nomeie a chave
-
-<br/>
-
-## Instalar Java
-```bash
-brew install openjdk@11
-```
-```bash
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
-export PATH=$JAVA_HOME/bin:$PATH
-```
-<br/>
-
-## Instalar e Configurar o Pyenv
-```bash
-brew install pyenv
-```
-
-```bash
-# sudo vim ~/.zshrc
-```
-```bash
-export PATH="$(pyenv root)/shims:$PATH"
-```
-```bash
+# PYENV
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zprofile
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zprofile
 echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+```
+```bash
 source ~/.zprofile
 ```
 <br/>
 
-## Instalar Python
-```bash
-pyenv install -l
-pyenv install 3.12.3
-pyenv global 3.12.3
-```
-<br/>
-
-## Instalar e Configurar o Apache Spark
-```bash
-brew install apache-spark
-```
-```bash
-export PATH="/opt/homebrew/opt/apache-spark/bin:$PATH"
-source ~/.zshrc
-```
-<br/>
-
-## Instalar o PySpark
-```bash
-pip install pyspark
-```
-```bash
-export SPARK_HOME=/opt/homebrew/opt/apache-spark/libexec
-export PATH=$SPARK_HOME/bin:$PATH
-```
-<br/>
-
-## Instalar Hadoop e Configurar o HDFS
-```bash
-brew install hadoop
-```
-Edite o arquivo de configuração do HDFS e execute o serviço localmente.
-<br/>
-
-## Instalar o VSCode
-```bash
-brew install --cask visual-studio-code
-```
-<br/>
-
-## Criar Projetos
+## New Project
 ```bash
 ls
 ```
@@ -159,8 +177,8 @@ ls
 cd repos
 ```
 ```bash
-git clone "git@github.com:seu-usuario/novo-repositorio.git"
-cd novo-repositorio
+git clone "git@github.com:user/new-repo.git"
+cd new-repo
 ```
 ```bash
 python3 -m venv venv
@@ -171,7 +189,7 @@ pip install pandas numpy matplotlib findspark
 ```
 <br/>
 
-## Código de Exemplo no Spark
+## Project Test
 ```python
 import findspark
 findspark.init()
@@ -179,7 +197,7 @@ findspark.init()
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, avg
 
-spark = SparkSession.builder.master("local[*]").appName("ProjetoCienciaDadosSpark").getOrCreate()
+spark = SparkSession.builder.master("local[*]").appName("ProjectoTest").getOrCreate()
 
 url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"
 columns = ["sepal_length", "sepal_width", "petal_length", "petal_width", "class"]
@@ -187,13 +205,10 @@ df = spark.read.option("header", "false").csv(url)
 
 df = df.toDF(*columns)
 
-print("Primeiras linhas do DataFrame:")
 df.show(5)
 
-print("Resumo estatístico das colunas numéricas:")
 df.describe().show()
 
-print("Média das colunas numéricas por classe:")
 df.groupBy("class").agg(
     avg("sepal_length").alias("avg_sepal_length"),
     avg("sepal_width").alias("avg_sepal_width"),
@@ -201,7 +216,6 @@ df.groupBy("class").agg(
     avg("petal_width").alias("avg_petal_width")
 ).show()
 
-print("Filtrar onde 'sepal_length' > 5:")
 df.filter(col("sepal_length") > 5).show()
 
 df.write.parquet("iris.parquet")
@@ -216,7 +230,7 @@ pip freeze > requirements.txt
 ```
 ```bash
 git add .
-git commit -m "Descrição das alterações"
+git commit -m "COMMIT CHANGES"
 git push origin main
 ```
 ```bash
@@ -226,7 +240,7 @@ deactivate
 
 ## Git PULL
 ```bash
-cd repos/nome-do-repositorio
+cd repos/name-repo
 ```
 ```bash
 source venv/bin/activate
